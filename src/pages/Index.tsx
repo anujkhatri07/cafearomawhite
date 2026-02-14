@@ -1,13 +1,43 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import { useEffect } from "react";
+import Navbar from "@/components/Navbar";
+import HeroSection from "@/components/HeroSection";
+import MenuSection from "@/components/MenuSection";
+import AboutSection from "@/components/AboutSection";
+import GallerySection from "@/components/GallerySection";
+import LocationSection from "@/components/LocationSection";
+import Footer from "@/components/Footer";
 
 const Index = () => {
+  // Scroll fade-in observer
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("visible");
+          }
+        });
+      },
+      { threshold: 0.1 }
+    );
+
+    document.querySelectorAll(".section-fade-in").forEach((el) => {
+      observer.observe(el);
+    });
+
+    return () => observer.disconnect();
+  }, []);
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background">
-      <div className="text-center">
-        <h1 className="mb-4 text-4xl font-bold">Welcome to Your Blank App</h1>
-        <p className="text-xl text-muted-foreground">Start building your amazing project here!</p>
-      </div>
-    </div>
+    <main>
+      <Navbar />
+      <HeroSection />
+      <div className="section-fade-in"><MenuSection /></div>
+      <div className="section-fade-in"><AboutSection /></div>
+      <div className="section-fade-in"><GallerySection /></div>
+      <div className="section-fade-in"><LocationSection /></div>
+      <Footer />
+    </main>
   );
 };
 
